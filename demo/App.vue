@@ -6,16 +6,13 @@
                     <div class="col-8 offset-2">
                         <h4 class="mb-4">Import:</h4>
                         <vue-csv-import v-model="csv" :map-fields="['from', 'to', 'type', 'team']"></vue-csv-import>
-                        <v-radio-group>
-                            <v-radio
-                              v-for="n in 3"
-                              :key="n"
-                              :label="`Radio ${n}`"
-                              :value="n"
-                            ></v-radio>
-                        </v-radio-group>
-                        <button v-on:click="take_passes('Home')"> Home </button>
-                        <button v-on:click="take_passes('Away')"> Away </button>
+                        <input type="radio" id="uno" value="Home" v-model="team">
+                        <label for="uno">Home</label>
+                        <br>
+                        <input type="radio" id="Dos" value="Away" v-model="team">
+                        <label for="Dos">Away</label>
+                        <br>
+                        <button v-on:click="take_passes()"> Graph </button>
                         <d3-network :net-nodes="nodes" :net-links="links" :options="options" />
                         <div class="mt-2">
                             {{ passes }}
@@ -55,7 +52,9 @@
                 ],
                 links: [],
                 nodeSize:20,
-                canvas:false
+                canvas:false,
+                team: 'Home',
+                colors: ['red', 'blue', 'green', 'yellow']
             };
         },
         computed:{
@@ -71,8 +70,8 @@
             }
         },
         methods: {
-            take_passes(team){
-                console.log(this.csv)
+            take_passes(){
+                var team = this.team
                 this.passes = this.csv.filter((a) => a.type == 'PASS' && a.team == team)
                 var froms = new Set(this.passes.map((a) => a.from))
                 var i = 1
@@ -82,18 +81,6 @@
                   i++
                 })
                 this.nodes = nodes
-                this.links = [
-                    { sid: 1, tid: 2, _color:'red', name: 'custom name' },
-                    { sid: 2, tid: 8, _color:'f0f' },
-                    { sid: 3, tid: 4, _color:'rebeccapurple' },
-                    { sid: 3, tid: 4, _svgAttrs:{'stroke-width':8,opacity:1}  },
-                    { sid: 4, tid: 5 },
-                    { sid: 5, tid: 6 },
-                    { sid: 7, tid: 8 },
-                    { sid: 5, tid: 8 },
-                    { sid: 3, tid: 8 },
-                    { sid: 7, tid: 9 }
-                ]
                 var links = []
                 for (var i = nodes.length - 1; i >= 0; i--) {
                     var passes_from_i = this.passes.filter((a) => a.from == nodes[i].name)
@@ -102,14 +89,12 @@
                             var to_name = passes_from_i[j].to
                             var to_id   = nodes.find((a) => a.name == to_name).id
                             if ( links.filter((a) => a.sid == nodes[i].id && a.tid == to_id).length == 0 ) {
-                                links.push({ sid: nodes[i].id, tid: to_id, _color:'red' })
+                                links.push({ sid: nodes[i].id, tid: to_id, _color: this.colors[ Math.floor(Math.random() * 11) % 4 ] })
                             }
                         }
-                        console.log(links)
                     }
                 }
                 this.links = links
-                debugger
             }
         }
     };
