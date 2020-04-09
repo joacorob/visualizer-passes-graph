@@ -21,7 +21,8 @@
     "lodash": "^4.17.15",
     "mime-types": "^2.1.24",
     "papaparse": "^5.0.0",
-    "vue": "^2.5.22"
+    "vue": "^2.5.22",
+    "vue-d3-network": "^0.1.28"
   },
   "devDependencies": {
     "@vue/cli": "^4.2.2",
