@@ -12,14 +12,8 @@
                         <input type="radio" id="Dos" value="Away" v-model="team">
                         <label for="Dos">Away</label>
                         <br>
-                        <button v-on:click="take_passes()"> Graph </button>
+                        <button v-on:click="take_passes()"> Graph Passes </button>
                         <d3-network :net-nodes="nodes" :net-links="links" :options="options" />
-                        <div class="mt-2">
-                            {{ passes }}
-                        </div>
-                        <div class="mt-2">
-                            {{ csv }}
-                        </div>
                     </div>
                 </div>
             </section>
@@ -43,7 +37,7 @@
                     { id: 1, name: 'my awesome node 1'},
                     { id: 2, name: 'my node 2'},
                     { id: 3, name:'orange node', _color: 'orange' },
-                    { id: 4, _color: '#4466ff'},
+                    { id: 4, _color: '#4466ff', _size: 30},
                     { id: 5 },
                     { id: 6 },
                     { id: 7 },
@@ -77,7 +71,7 @@
                 var i = 1
                 var nodes = []
                 froms.forEach((item) => {
-                  nodes.push( { name: item, id: i } )
+                  nodes.push( { name: item, id: i, _size: this.csv.filter((a) => a.type == 'PASS' && a.team == team && a.from == item).length } )
                   i++
                 })
                 this.nodes = nodes
