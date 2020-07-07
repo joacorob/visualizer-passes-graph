@@ -55,7 +55,7 @@
             options(){
               return{
                 force: 3000,
-                size:{ w:600, h:600},
+                size:{ w:1200, h:1200},
                 nodeSize: this.nodeSize,
                 nodeLabels: true,
                 linkLabels:true,
@@ -81,9 +81,9 @@
                     if (passes_from_i.length > 0) {
                         for (var j = 0; j < passes_from_i.length; j++) {
                             var to_name = passes_from_i[j].to
-                            var to_id   = nodes.find((a) => a.name == to_name).id
-                            if ( links.filter((a) => a.sid == nodes[i].id && a.tid == to_id).length == 0 ) {
-                                links.push({ sid: nodes[i].id, tid: to_id, _color: this.colors[ Math.floor(Math.random() * 11) % 4 ] })
+                            var to   = nodes.find((a) => a.name == to_name)
+                            if ( to && links.filter((a) => a.sid == nodes[i].id && a.tid == to.id).length == 0 ) {
+                                links.push({ sid: nodes[i].id, tid: to.id, _color: this.colors[ Math.floor(Math.random() * 11) % 4 ] })
                             }
                         }
                     }
