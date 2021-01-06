@@ -16,7 +16,7 @@
   "jsDelivr": "dist/VueCsvImport.umd.min.js",
   "unpkg": "dist/VueCsvImport.umd.min.js",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "core-js": "^3.6.4",
     "lodash": "^4.17.15",
     "mime-types": "^2.1.24",
